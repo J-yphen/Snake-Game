@@ -1,15 +1,14 @@
-#include <raylib.h>
+#include "food.h"
+#include "grid.h"
 
 Color darkGreen = {142, 204, 57, 255};
 Color limeGreen = {167, 217, 72, 255};
 Color oliveGreen = {52, 64, 24, 255};
 
-int cellSize = 25;
-int cellCount = 25;
-
 int main()
 {
     InitWindow(cellSize * cellCount, cellSize * cellCount, "Linky Snake");
+    Food food = Food();
     SetTargetFPS(30);
 
     while (!WindowShouldClose())
@@ -26,8 +25,8 @@ int main()
                     DrawRectangle(i * cellSize, j * cellSize, cellSize, cellSize, limeGreen);
                     // DrawRectangleLines(i * cellSize, j * cellSize, cellSize, cellSize, WHITE);
             }
-            
         }
+        food.Draw();
         
         EndDrawing();
     }
