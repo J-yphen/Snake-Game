@@ -1,4 +1,4 @@
-#include "food.h"
+#include "entities.h"
 #include "grid.h"
 
 Color darkGreen = {142, 204, 57, 255};
