@@ -1,31 +1,26 @@
 #include <raylib.h>
+#include <vector>
 
 #pragma once
+using namespace std;
 
 typedef struct{
     int x;
     int y;
 } Coord;
 
-typedef struct Node{
-    Node* prev;
-    Coord loc;
-    Node* next;
-} Node;
-
 class Body{
     private:
-        Node* head;
-        Node* tail;
-        Node* drawPtr;
+        int head;
+        int tail;
     public:
+        vector<Coord> buffer;
         Body();
         int qsize();
         Coord pop_front();
         void push_front(Coord loc);
         Coord pop_back();
         void push_back(Coord loc);
-        Coord read_front();
 };
 
 class Food{

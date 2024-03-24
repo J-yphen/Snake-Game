@@ -1,9 +1,9 @@
 #include "entities.h"
 #include "grid.h"
 
-Color darkGreen = {142, 204, 57, 255};
-Color limeGreen = {167, 217, 72, 255};
-Color oliveGreen = {52, 64, 24, 255};
+Color darkGreen = {162, 209, 73, 255};
+Color limeGreen = {170, 215, 81, 255};
+Color oliveGreen = {87, 138, 52, 255};
 
 int main()
 {
