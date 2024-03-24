@@ -3,8 +3,8 @@
 #pragma once
 
 typedef struct{
-    unsigned int x;
-    unsigned int y;
+    int x;
+    int y;
 } Coord;
 
 typedef struct Node{
@@ -17,6 +17,7 @@ class Body{
     private:
         Node* head;
         Node* tail;
+        Node* drawPtr;
     public:
         Body();
         int qsize();
@@ -24,6 +25,7 @@ class Body{
         void push_front(Coord loc);
         Coord pop_back();
         void push_back(Coord loc);
+        Coord read_front();
 };
 
 class Food{
@@ -34,4 +36,13 @@ class Food{
         Coord GeneratePos(); 
         Food();
         ~Food();
+};
+
+class Snake{
+    private:
+        Body body;
+
+    public:
+        Snake();
+        void Draw();
 };

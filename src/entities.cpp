@@ -5,6 +5,7 @@
 Body::Body(){
     head = nullptr;
     tail = nullptr;
+    drawPtr = head;
 }
 
 int Body::qsize(){
@@ -117,6 +118,19 @@ Coord Body::pop_back(){
     }
 }
 
+Coord Body::read_front(){
+    Node* temp = drawPtr;
+    if (temp == nullptr){
+        Coord null;
+        null.x = -1;
+        null.y = -1;
+        drawPtr = head; // Resets pointer.
+        return null;
+    }
+    drawPtr = drawPtr->next;
+    return temp->loc;
+}
+
 Food::Food(){
     pos = GeneratePos();
     Image image = LoadImage("Graphics\\apple.png");
@@ -138,4 +152,28 @@ Coord Food::GeneratePos(){
     newPos.x = GetRandomValue(3, cellCount - 4);
     newPos.y = GetRandomValue(3, cellCount - 4);
     return newPos;
+}
+
+Snake::Snake(){
+    body = Body();
+    Coord initLoc;
+    initLoc.x = 7;
+    initLoc.y = 8;
+    body.push_back(initLoc);
+    initLoc.x = 6;
+    body.push_back(initLoc);
+    initLoc.x = 5;
+    body.push_back(initLoc);
+}
+
+void Snake::Draw(){
+    for (int  i = 0; i < body.qsize(); i++){
+        Coord temp;
+        temp = body.read_front();
+        if (temp.x == -1 && temp.y == -1)
+            break;
+        Rectangle seg = Rectangle{(float) temp.x * (float) cellSize, (float) temp.y * (float) cellSize, (float) cellSize, (float) cellSize};
+        DrawRectangleRounded(seg, 0.5, 6, BLACK);
+    }
+    
 }

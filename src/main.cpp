@@ -9,6 +9,7 @@ int main()
 {
     InitWindow(cellSize * cellCount, cellSize * cellCount, "Linky Snake");
     Food food = Food();
+    Snake snake = Snake();
     SetTargetFPS(30);
 
     while (!WindowShouldClose())
@@ -27,6 +28,7 @@ int main()
             }
         }
         food.Draw();
+        snake.Draw();
         
         EndDrawing();
     }
