@@ -41,4 +41,7 @@ class Snake{
         Snake();
         void Draw();
         void Update();
+        void Reset();
 };
+
+bool ElementInSnakeBody(Coord element, Body dequeBody);

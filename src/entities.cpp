@@ -11,8 +11,10 @@ bool ElementInSnakeBody(Coord element, Body dequeBody){
 
 Coord GenerateRandomCell(){
     Coord newPos;
-    newPos.x = GetRandomValue(3, cellCount - 4);
-    newPos.y = GetRandomValue(3, cellCount - 4);
+    // newPos.x = GetRandomValue(3, cellCount - 4);
+    // newPos.y = GetRandomValue(3, cellCount - 4);
+    newPos.x = GetRandomValue(0, cellCount - 1);
+    newPos.y = GetRandomValue(0, cellCount - 1);
     return newPos;
 }
 
@@ -69,7 +71,7 @@ void Snake::Draw(){
     for (int  i = 0; i < body.qsize(); i++){
         int x = body.buffer[i].x;
         int y = body.buffer[i].y;
-        Rectangle seg = Rectangle{(float) x * (float) cellSize, (float) y * (float) cellSize, (float) cellSize, (float) cellSize};
+        Rectangle seg = Rectangle{(float) x * (float) cellSize + offset, (float) y * (float) cellSize + offset, (float) cellSize, (float) cellSize};
         DrawRectangleRounded(seg, 0.5, 6, {56, 88, 33, 255});
     }
 }
@@ -85,6 +87,17 @@ void Snake::Update(){
     }
 }
 
+void Snake::Reset(){
+    body.buffer.clear();
+    direction = {1, 0};
+    Coord initLoc = {7, 8};
+    body.push_back(initLoc);
+    initLoc.x = 6;
+    body.push_back(initLoc);
+    initLoc.x = 5;
+    body.push_back(initLoc);
+}
+
 Food::Food(Body snakeBody){
     pos = GeneratePos(snakeBody);
     Image image = LoadImage("Graphics\\apple.png");
@@ -98,7 +111,7 @@ Food::~Food(){
 
 void Food::Draw(){
     // DrawRectangle(pos.x * cellSize, pos.y * cellSize, cellSize, cellSize, RED);
-    DrawTexture(texture, pos.x * cellSize, pos.y * cellSize, WHITE);
+    DrawTexture(texture, pos.x * cellSize + offset, pos.y * cellSize + offset, WHITE);
 }
 
 Coord Food::GeneratePos(Body snakeBody){
