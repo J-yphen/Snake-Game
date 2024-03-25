@@ -56,6 +56,7 @@ Coord Body::pop_back() {
 Snake::Snake(){
     body = Body();
     direction = {1, 0};
+    addSegment = false;
     Coord initLoc = {7, 8};
     body.push_back(initLoc);
     initLoc.x = 6;
@@ -74,8 +75,14 @@ void Snake::Draw(){
 }
 
 void Snake::Update(){
-    body.pop_back();
     body.push_front({body.buffer[0].x + direction.x, body.buffer[0].y + direction.y});
+
+    if (addSegment){
+        addSegment = false;
+    } else{
+        body.pop_back();
+        // body.push_front({body.buffer[0].x + direction.x, body.buffer[0].y + direction.y});
+    }
 }
 
 Food::Food(Body snakeBody){

@@ -33,8 +33,8 @@ public:
     void checkCollisionWithFood(){
         if (snake.body.buffer[0].x == food.pos.x && snake.body.buffer[0].y == food.pos.y){
             food.pos = food.GeneratePos(snake.body);
+            snake.addSegment = true;
         }
-        
     }
 };
 

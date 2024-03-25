@@ -37,6 +37,7 @@ class Snake{
     public:
         Body body;
         Coord direction;
+        bool addSegment;
         Snake();
         void Draw();
         void Update();
