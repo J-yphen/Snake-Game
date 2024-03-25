@@ -43,6 +43,7 @@ Coord Body::pop_front() {
 
 void Body::push_back(Coord loc) {
     buffer.push_back(loc);
+    tail = (tail + 1) % buffer.size();
 }
 
 Coord Body::pop_back() {

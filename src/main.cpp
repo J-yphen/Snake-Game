@@ -24,6 +24,26 @@ public:
     Food food = Food(snake.body);
     bool running = true;
     int score = 0;
+    Sound eatSound;
+    Sound wallSound;
+    Music whilePlaying;
+    Music gameOverMusic;
+
+    Game(){
+        InitAudioDevice();
+        eatSound = LoadSound("Sounds/eat.mp3");
+        wallSound = LoadSound("Sounds/wall.mp3");
+        whilePlaying = LoadMusicStream("Sounds/Goodnightmare.mp3");
+        gameOverMusic = LoadMusicStream("Sounds/Planeteer Reaction.mp3");
+    }
+
+    ~Game(){
+        UnloadSound(eatSound);
+        UnloadSound(wallSound);
+        UnloadMusicStream(whilePlaying);
+        UnloadMusicStream(gameOverMusic);
+        CloseAudioDevice();
+    }
 
     void Draw(){
         food.Draw();
@@ -34,6 +54,7 @@ public:
             snake.Update();
             checkCollisionWithFood();
             checkCollisionWithEdges();
+            checkCollisionWithTail();
         }
     }
     void checkCollisionWithFood(){
@@ -41,6 +62,7 @@ public:
             food.pos = food.GeneratePos(snake.body);
             snake.addSegment = true;
             score++;
+            PlaySound(eatSound);
         }
     }
     void checkCollisionWithEdges(){
@@ -54,8 +76,8 @@ public:
     }
     void checkCollisionWithTail(){
         Body headlessBody = snake.body;
-        headlessBody.pop_front();
-        if(ElementInSnakeBody(snake.body.buffer[0], headlessBody)){
+        Coord head_loc = headlessBody.pop_front();
+        if(checkHeadinBody(head_loc, headlessBody)){
             GameOver();
         }
     }
@@ -64,6 +86,14 @@ public:
         food.pos = food.GeneratePos(snake.body);
         running = false;
         score = 0;
+        PlaySound(wallSound);
+    }
+    bool checkHeadinBody(Coord element, Body dequeBody){
+        for(int i = dequeBody.head; i < dequeBody.qsize(); i++){
+        if(dequeBody.buffer[i].x == element.x && dequeBody.buffer[i].y == element.y)
+            return true;
+    }
+    return false;
     }
 };
 
@@ -71,12 +101,14 @@ int main()
 {
     InitWindow(2 * offset + cellSize * cellCount, 2 * offset + cellSize * cellCount, "Linky Snake");
     Game game = Game();
-    SetTargetFPS(30);
+    SetTargetFPS(60);
 
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()){
+        UpdateMusicStream(game.whilePlaying);
+        UpdateMusicStream(game.gameOverMusic);
+        
         BeginDrawing();
-        if (eventTriggered(0.15)){
+        if (eventTriggered(0.2)){
             allowMove = true;
             game.Update();
         }
@@ -103,6 +135,14 @@ int main()
             game.snake.direction = {1, 0};
             game.running = true;
             allowMove = false;
+        }
+
+        if (game.running){
+            PlayMusicStream(game.whilePlaying);
+            StopMusicStream(game.gameOverMusic);
+        } else {
+            PlayMusicStream(game.gameOverMusic);
+            StopMusicStream(game.whilePlaying);
         }
 
         // for (int i = 2; i < cellCount-2; i++){

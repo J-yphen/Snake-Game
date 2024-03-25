@@ -10,10 +10,12 @@ typedef struct{
 } Coord;
 
 class Body{
-    private:
+    // private:
+        // int head;
+        // int tail;
+    public:
         int head;
         int tail;
-    public:
         vector<Coord> buffer;
         Body();
         int qsize();
