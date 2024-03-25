@@ -28,16 +28,14 @@ class Food{
         Coord pos;
         Texture2D texture;
         void Draw();
-        Coord GeneratePos(); 
-        Food();
+        Coord GeneratePos(Body snakeBody); 
+        Food(Body snakeBody);
         ~Food();
 };
 
 class Snake{
-    private:
-        Body body;
-
     public:
+        Body body;
         Coord direction;
         Snake();
         void Draw();

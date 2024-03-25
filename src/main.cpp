@@ -1,3 +1,4 @@
+#include <iostream>
 #include "entities.h"
 #include "grid.h"
 
@@ -16,11 +17,31 @@ bool eventTriggered(double interval){
     return false;
 }
 
+class Game{
+public:
+    Snake snake = Snake();
+    Food food = Food(snake.body);
+
+    void Draw(){
+        food.Draw();
+        snake.Draw();
+    }
+    void Update(){
+        snake.Update();
+        checkCollisionWithFood();
+    }
+    void checkCollisionWithFood(){
+        if (snake.body.buffer[0].x == food.pos.x && snake.body.buffer[0].y == food.pos.y){
+            food.pos = food.GeneratePos(snake.body);
+        }
+        
+    }
+};
+
 int main()
 {
     InitWindow(cellSize * cellCount, cellSize * cellCount, "Linky Snake");
-    Food food = Food();
-    Snake snake = Snake();
+    Game game = Game();
     SetTargetFPS(30);
 
     while (!WindowShouldClose())
@@ -29,19 +50,19 @@ int main()
         ClearBackground(darkGreen);
 
         if (eventTriggered(0.1))
-            snake.Update();
+            game.Update();
 
-        if((IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) && snake.direction.y != 1)
-            snake.direction = {0, -1};
+        if((IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) && game.snake.direction.y != 1)
+            game.snake.direction = {0, -1};
 
-        if((IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) && snake.direction.y != -1)
-            snake.direction = {0, 1};
+        if((IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) && game.snake.direction.y != -1)
+            game.snake.direction = {0, 1};
 
-        if((IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) && snake.direction.x != 1)
-            snake.direction = {-1, 0};
+        if((IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) && game.snake.direction.x != 1)
+            game.snake.direction = {-1, 0};
         
-        if((IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) && snake.direction.x != -1)
-            snake.direction = {1, 0};
+        if((IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) && game.snake.direction.x != -1)
+            game.snake.direction = {1, 0};
 
         for (int i = 2; i < cellCount-2; i++){
             for (int j = 2; j < cellCount-2; j++){
@@ -54,8 +75,7 @@ int main()
                     // DrawRectangleLines(i * cellSize, j * cellSize, cellSize, cellSize, WHITE);
             }
         }
-        food.Draw();
-        snake.Draw();
+        game.Draw();
         
         EndDrawing();
     }
