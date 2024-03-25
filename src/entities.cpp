@@ -63,6 +63,7 @@ Coord Food::GeneratePos(){
 
 Snake::Snake(){
     body = Body();
+    direction = {1, 0};
     Coord initLoc = {7, 8};
     body.push_back(initLoc);
     initLoc.x = 6;
@@ -78,5 +79,9 @@ void Snake::Draw(){
         Rectangle seg = Rectangle{(float) x * (float) cellSize, (float) y * (float) cellSize, (float) cellSize, (float) cellSize};
         DrawRectangleRounded(seg, 0.5, 6, {56, 88, 33, 255});
     }
-    
+}
+
+void Snake::Update(){
+    body.pop_back();
+    body.push_front({body.buffer[0].x + direction.x, body.buffer[0].y + direction.y});
 }

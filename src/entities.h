@@ -38,6 +38,8 @@ class Snake{
         Body body;
 
     public:
+        Coord direction;
         Snake();
         void Draw();
+        void Update();
 };
